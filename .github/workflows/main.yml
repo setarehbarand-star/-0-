@@ -1,4 +1,4 @@
-name: Test Internet
+name: Test Internet (Verbose)
 
 on:
   workflow_dispatch:
@@ -7,11 +7,25 @@ jobs:
   run-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Force long log
+        run: |
+          echo "=== Start ==="
+          for i in {1..20}; do
+            echo "Line $i"
+            sleep 0.1
+          done
+
       - name: Check Google
-        run: curl -I https://google.com
+        run: |
+          set -x
+          curl -I https://www.google.com || true
 
       - name: Check Telegram API
-        run: curl -I https://api.telegram.org
+        run: |
+          set -x
+          curl -I https://api.telegram.org || true
 
       - name: Print IP
-        run: curl ifconfig.me
+        run: |
+          set -x
+          curl ifconfig.me
